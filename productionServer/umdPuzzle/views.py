@@ -31,13 +31,18 @@ def getCompletedPuzzles(request):
 def postPuzzleSolved(request):
     response_data = {}
     if request.method != "POST":
-        response_data['status'] = "failed"
+        response_data['status'] = "failed: not POST request"
         response_data['score'] = 0
         return JsonResponse(response_data)
     else:
-        puzzle_id = int(request.POST['puzzle_id'])
-        username = request.POST['username']
-
+        try:
+            puzzle_id = int(request.POST['puzzle_id'])
+            username = request.POST['username']
+        except Exception:
+            response_data['status'] = "failed: invalid POST request"
+            response_data['score'] = 0
+            return JsonResponse
+            
         get_place = get_object_or_404(Place, pk=puzzle_id)
         get_place.addSolver(username)
         get_place.completed = True
