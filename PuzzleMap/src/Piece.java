@@ -20,9 +20,9 @@ public class Piece {
 		pos[1] += y;
 	}
 	
-	public void drawPiece(Graphics g, int max) {
-		int x = (int) (pos[0] *max);
-		int y = (int) (pos[1] *max);
+	public void drawPiece(Graphics g, int dx, int dy) {
+		int x = (int) (pos[0] *dx);
+		int y = (int) (pos[1] *dy);
 		g.drawImage(img, x, y, null);
 	}
 

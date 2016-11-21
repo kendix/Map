@@ -123,9 +123,9 @@ public class Puzzle {
       }
    }
 
-   public void drawPuzzle(Graphics g, int maxdimen) {
+   public void drawPuzzle(Graphics g, int dx, int dy) {
       for(Piece p : pieces) {
-         p.drawPiece(g, maxdimen);
+         p.drawPiece(g, dx, dy);
       }
    }
 }
