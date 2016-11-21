@@ -22,7 +22,7 @@ public class Game extends JFrame implements MouseMotionListener, MouseListener{
 		dim = d;
 		bi = new BufferedImage(dim, dim, BufferedImage.TYPE_INT_ARGB);
 		try {
-			p = new Puzzle(x, new File(i));
+			p = new Puzzle(x, y, new File(i));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class Game extends JFrame implements MouseMotionListener, MouseListener{
 
 
 	public static void main(String[] args) {
-		new Game(500, "test.png", 5, 5);
+		new Game(500, "test.png", 10, 2);
 	}
 
 }
