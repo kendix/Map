@@ -1,8 +1,10 @@
 package com.example.daneil.puzzleactivityproject;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,6 +15,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,10 +35,10 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
         setContentView(R.layout.activity_puzzle);
 
         mFrame = (FrameLayout) findViewById(R.id.frame);
-
         mFrame.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+
                 mFrame.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 int width = mFrame.getWidth();
                 int height = mFrame.getHeight();
@@ -55,7 +58,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
                     }
                 }
                 for (int i = 0; i < pd[0] * pd[1]; i++) {
-                    int a = (int) (Math.random() * pd[0] * pd[1]);
+                    int a = i;
                     int b = (int) (Math.random() * pd[0] * pd[1]);
                     float[] f = pieces.get(a).pos;
                     f[0] += x * .1 * (Math.random() - 1);
@@ -101,9 +104,23 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
                             p.fixed = true;
                             p.sendViewToBack(p);
                             if (isComplete()) {
-                                // TODO: ACTION ON COMPLETE PUZZLE
-                                finish();
-                            }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                builder.setMessage("You completed the puzzle!")
+                                        .setCancelable(false)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //do things
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        finish();
+                                    }
+                                });
+                                alert.show();
+ }
 
                         }
                     default:
