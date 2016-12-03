@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 import json
 from models import Place
@@ -14,7 +14,7 @@ def index(request):
 
 def getCompletedPuzzles(request):
     place_qs = Place.objects.all()
-
+    response = {}
     completedPuzzles = []
     for place in place_qs:
         temp_obj = {
@@ -25,8 +25,9 @@ def getCompletedPuzzles(request):
                 'completed' : place.completed,
         }
         completedPuzzles.append(temp_obj)
+    response["buildings"] = completedPuzzles
 
-    return JsonResponse(completedPuzzles, safe=False)
+    return JsonResponse(response)
 
 def postPuzzleSolved(request):
     response_data = {}
@@ -56,12 +57,19 @@ def postPuzzleSolved(request):
         return JsonResponse(response_data)
 
 
-def getPlacePic(request, place_id):
-    get_place = get_object_or_404(Place, pk=place_id)
-    context = {
-        'picture' : "img/" + get_place.picture
-    }
-    return render(request, 'umdPuzzle/pic.html', context)
+def getPlacePic(request):
+    if request.GET.get('name'):
+        picName = request.GET.get('name')
+        context = {
+            'picture' : "img/" + picName 
+        }
+        return render(request, 'umdPuzzle/pic.html', context)
+    else:
+        return HttpResponse("hello");
+        # context = {
+        #     'picture' : "img/dog.jpg" 
+        # }
+        # return render(request, 'umdPuzzle/pic.html', context)
 
 
 def getPlace(request):

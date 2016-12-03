@@ -212,8 +212,11 @@ public class MapsActivity extends FragmentActivity implements
         return true;
     }
 
-    public void addPlace(Object place) {
-        mPlacesMap.put(place.toString(), place);
+    public void addPlace(Building place) {
+        mPlacesMap.put(place.getName(), place);
+    }
+    public GoogleMap getMap() {
+    	return mMap;
     }
 
     @Override
