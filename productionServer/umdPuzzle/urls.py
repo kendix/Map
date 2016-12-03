@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^getPlace/', views.getPlace, name='getPlace'),
     url(r'^getPlacePic/(?P<place_id>[0-9]+)/$', views.getPlacePic, name='getPlacePic'),
     url(r'^postPuzzleSolved/$', views.postPuzzleSolved, name='postPuzzleSolved'),
-    url(r'^getCompletedPuzzles/$', views.getCompletedPuzzles, name='getCompletedPuzzles'),
+    url(r'^getPlaces/$', views.getCompletedPuzzles, name='getCompletedPuzzles'),
 ]

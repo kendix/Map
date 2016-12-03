@@ -13,20 +13,20 @@ def index(request):
     return HttpResponse(json.dumps(example), content_type='application/json')
 
 def getCompletedPuzzles(request):
-    place_qs = Place.objects.filter(completed=True)
+    place_qs = Place.objects.all()
 
-    response_data = {}
     completedPuzzles = []
     for place in place_qs:
         temp_obj = {
-            'name' : place.name,
-            'id' :  place.id,
+                'name' : place.name,
+                'lat' : place.latitude,
+                'lng' : place.longitude,
+                'pic' : place.picture,
+                'completed' : place.completed,
         }
         completedPuzzles.append(temp_obj)
 
-    response_data['completedPuzzles'] = completedPuzzles
-
-    return JsonResponse(response_data)
+    return JsonResponse(completedPuzzles, safe=False)
 
 def postPuzzleSolved(request):
     response_data = {}

@@ -26,7 +26,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
 
     float dX, dY;
     private float wiggle = .25f;
-    int[] pd = {2, 2}; // Puzzle Dimentions
+    int[] pd = {5, 3}; // Puzzle Dimentions
     ArrayList<PieceView> pieces = new ArrayList<PieceView>();
 
     @Override
@@ -45,7 +45,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
                 int x = width / pd[0];
                 int y = height / pd[1];
 
-                fullImage = BitmapFactory.decodeResource(getResources(), R.drawable.test2);
+                fullImage = BitmapFactory.decodeResource(getResources(), R.drawable.test4);
                 fullImage = Bitmap.createScaledBitmap(fullImage, width, height, false);
 
                 for (int i = 0; i < pd[0]; i++) {
