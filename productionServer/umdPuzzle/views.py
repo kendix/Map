@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import json
 from models import Place
 
@@ -29,6 +30,7 @@ def getCompletedPuzzles(request):
 
     return JsonResponse(response)
 
+@csrf_exempt
 def postPuzzleSolved(request):
     response_data = {}
     if request.method != "POST":
@@ -44,14 +46,11 @@ def postPuzzleSolved(request):
             return JsonResponse
             
         get_place = get_object_or_404(Place, name=building_name)
-        get_place.addSolver(username)
         get_place.completed = True
         get_place.save()
-        score = get_place.getScore()
 
 
         response_data['status'] = "success"
-        response_data['score'] = score
 
         return JsonResponse(response_data)
 
