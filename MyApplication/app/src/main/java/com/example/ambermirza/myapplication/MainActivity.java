@@ -24,36 +24,24 @@ public class MainActivity extends Activity{
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_myactivity, menu);
-        return true;
-    }
+    //function called when user hits menu item "MAP"
     public void map(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-    //jk not using this anymore
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(getApplicationContext(),	item.getTitle() + " selected", Toast.LENGTH_SHORT).show();
 
-        switch (item.getItemId()) {
-            case R.id.mapMenu:
-                // do something
-                break;
-            case R.id.favMenu:
-                // do something
-                break;
-            case R.id.listMenu:
-                // do something
-                break;
-            case R.id.settingsMenu:
-                // do something
-                break;
-        }
-        return true;
+    //TODO finish
+    //function called when user hits menu item "GALLERY"
+    public void gallery(View view) {
+
     }
+
+    //TODO finish
+    //function called when user hits menu item "TAKE PHOTO"
+    public void takePhoto(View view) {
+
+    }
+
+
 
 }
