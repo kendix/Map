@@ -1,6 +1,7 @@
 package com.example.ambermirza.myapplication;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.Menu;
@@ -89,9 +91,15 @@ public class MainActivity extends Activity{
     //TODO finish
     //function called when user hits menu item "GALLERY"
     public void gallery(View view) {
-        Intent picFromGallery = new Intent(
-                Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(picFromGallery, REQUEST_IMAGE_GALLERY);
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            Intent picFromGallery = new Intent(
+                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(picFromGallery, REQUEST_IMAGE_GALLERY);
+        } else {
+            Toast.makeText(this, "Error with Gallery", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
