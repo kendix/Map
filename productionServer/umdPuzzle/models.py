@@ -22,7 +22,7 @@ class Place(models.Model):
     longitude = models.FloatField(null=False, blank=False, 
         help_text="left most longitude")
     # only one puzzle can have the same picture url
-    picture = models.CharField(max_length=100, unique=True, 
+    picture = models.CharField(max_length=100, unique=False, 
         help_text="name of picture") 
 
     completed = models.BooleanField(default=False, 
@@ -34,51 +34,4 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
-
-    def getDistance(self, latitude, longitude):
-        """ 
-        returns the distance between the place's location 
-        and a different longitude/latitude 
-        """
-        # Radius of Earth in Miles
-        
-        R = 3959.0
-        lat1 = radians(self.latitude)
-        lon1 = radians(self.longitude)
-        lat2 = radians(latitude)
-        lon2 = radians(longitude)
-
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-
-        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        distance = R * c
-
-        return distance
-
-    def addSolver(self, solver_name):
-        if self.solvers == "":
-            self.solvers = solver_name
-        else:
-            self.solvers = self.solvers + "||" + solver_name
-
-    def getSolvers(self):
-        if self.solvers == "":
-            return []
-        return self.solvers.split("||")
-
-    def getScore(self):
-        solvers = self.getSolvers()
-        if len(solvers) == 1:
-            return 500
-        elif len(solvers) == 2:
-            return 300
-        elif len(solvers) == 3:
-            return 100
-        else:
-            return 50
-
-
 
