@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="#E0777D"
+    >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:src="@drawable/icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:layout_margin="20dp"
+
+        ></ImageView>
+
+    <Button android:id="@+id/gallery"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#E1DD8F"
+        android:layout_margin="10dp"
+        android:textColor="#477890"
+        android:text="Gallery" />
+
+    <Button android:id="@+id/map"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#E1DD8F"
+        android:layout_margin="10dp"
+        android:textColor="#477890"
+        android:onClick="map"
+        android:text="Map"/>
+
+    <Button android:id="@+id/takephoto"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#E1DD8F"
+        android:layout_margin="10dp"
+        android:textColor="#477890"
+
+        android:text="Take Photo"/>
+
+</LinearLayout>
