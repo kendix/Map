@@ -116,7 +116,7 @@ public class PlaceDescription extends AppCompatActivity {
                 Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
                 //Convert to byte array
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                mPlacePic.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                mPlacePic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
                 startPuzzle.putExtra("picture", byteArray);
