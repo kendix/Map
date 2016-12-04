@@ -14,11 +14,13 @@ import android.util.Log;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.view.View;
 import android.content.Intent;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Created by ambermirza on 12/3/16.
@@ -57,6 +59,27 @@ public class MainActivity extends Activity{
             } else if (requestCode == PUZZLE_FROM_CAMERA || resultCode == PUZZLE_FROM_GALLERY ) {
                 Toast.makeText(this, "Choose an Option to Play Again!", Toast.LENGTH_SHORT).show();
             } else if (requestCode == REQUEST_IMAGE_GALLERY && null != data) {
+
+
+                Uri uri = data.getData();
+
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    // Log.d(TAG, String.valueOf(bitmap));
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    Log.i("MAIN", "Start Puzzle");
+                    Intent startPuzzle = new Intent(MainActivity.this, PuzzleActivity.class);
+                    startPuzzle.putExtra("picture", byteArray);
+                    startPuzzle.putExtra("name", "Picture from Gallery");
+                    startActivityForResult(startPuzzle, PUZZLE_FROM_GALLERY);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                /*
                 Log.i("MAIN", "Begin send data to puzzle");
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
@@ -77,6 +100,7 @@ public class MainActivity extends Activity{
                 startPuzzle.putExtra("picture", byteArray);
                 startPuzzle.putExtra("name", "Picture from Gallery");
                 startActivityForResult(startPuzzle, PUZZLE_FROM_GALLERY);
+                */
             }
         }
     }
@@ -91,15 +115,10 @@ public class MainActivity extends Activity{
     //TODO finish
     //function called when user hits menu item "GALLERY"
     public void gallery(View view) {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            Intent picFromGallery = new Intent(
-                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(picFromGallery, REQUEST_IMAGE_GALLERY);
-        } else {
-            Toast.makeText(this, "Error with Gallery", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PUZZLE_FROM_GALLERY);
 
 
     }
