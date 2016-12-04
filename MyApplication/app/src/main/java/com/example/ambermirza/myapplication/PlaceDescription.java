@@ -10,8 +10,13 @@ import android.icu.util.Calendar;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,15 +24,32 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.vision.text.Text;
+
+import java.io.ByteArrayOutputStream;
+
 public class PlaceDescription extends AppCompatActivity {
     static final int START_PUZZLE_REQUEST = 1337;
     Intent fromMapActivity;
     Bitmap mPlacePic;
     String mPlaceName;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
     Double mLat, buidlingLat;
     Double mLng, buidlingLng;
+    TextView mCompleted;
     private LocationManager mLocationmanager;
-    final String TAG = "PLACE_DESCRIPTION";
+    static final String TAG = "PLACE_DESCRIPTION";
+    final int REFRESH_TIME = 360;
+    final float REFRESH_DIST = 100.0f;
+    static final String postURL =
+            "https://photojigsawpuzzledjango.appspot.com/puzzle/postPuzzleSolved/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +72,11 @@ public class PlaceDescription extends AppCompatActivity {
         mPlaceName = fromMapActivity.getStringExtra("placeName");
         placeName.setText(mPlaceName);
 
-        TextView completed = (TextView) findViewById(R.id.place_complete);
+        mCompleted = (TextView) findViewById(R.id.place_complete);
         if (fromMapActivity.getBooleanExtra("completed", false)) {
-            completed.setText(R.string.completed);
+            mCompleted.setText(R.string.completed);
         } else {
-            completed.setText(R.string.incomplete);
+            mCompleted.setText(R.string.incomplete);
         }
         mLat = fromMapActivity.getDoubleExtra("mLat",0);
         mLng = fromMapActivity.getDoubleExtra("mLng",0);
@@ -81,8 +103,8 @@ public class PlaceDescription extends AppCompatActivity {
                 Log.i(TAG, "finished distance calculations");
 
 
-
-                if (Math.sqrt(distance) > 150) {
+                /*
+                if (Math.sqrt(distance) > 300) {
                     Toast.makeText(PlaceDescription.this,
                             "You are " + distance + " meters from the building.",
                             Toast.LENGTH_LONG).show();
@@ -90,13 +112,19 @@ public class PlaceDescription extends AppCompatActivity {
                             "You need to get closer to start this puzzle!",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    // TODO - change puzzleactivity to Daniels activity
-                    Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
-                    startPuzzle.putExtra("placePic", mPlacePic);
-                    startPuzzle.putExtra("placeName", mPlaceName);
+                */
+                Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
+                //Convert to byte array
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                mPlacePic.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
 
-                    startActivityForResult(startPuzzle, START_PUZZLE_REQUEST);
-                }
+                startPuzzle.putExtra("picture", byteArray);
+                // startPuzzle.putExtra("picture", mPlacePic);
+                startPuzzle.putExtra("name", mPlaceName);
+
+                startActivityForResult(startPuzzle, START_PUZZLE_REQUEST);
+                //}
             }
         });
 
@@ -109,9 +137,11 @@ public class PlaceDescription extends AppCompatActivity {
             // Todo -- manage the result sent by Daniel's puzzle
 
             // Todo -- change completed to whatever key Daniel used
-            boolean completed = data.getIntExtra("completed", 0) == 1;
+            boolean completed = data.getBooleanExtra("solved", false);
             if (completed) {
-                // Todo -- use the POSTAsyncTask to post that the puzzle was completed
+                POSTAsyncTask postCompleted = new POSTAsyncTask();
+                postCompleted.execute(postURL, data.getStringExtra("name"));
+                mCompleted.setText(R.string.completed);
             }
             Intent returnIntent = new Intent();
             returnIntent.putExtra("completed", completed);

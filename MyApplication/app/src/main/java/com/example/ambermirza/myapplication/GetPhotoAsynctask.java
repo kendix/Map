@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.ambermirza.myapplication.PlaceDescription;
 import com.google.android.gms.location.places.Place;
 
 import java.io.IOException;

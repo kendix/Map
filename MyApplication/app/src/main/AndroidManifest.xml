@@ -30,7 +30,15 @@
         <activity
             android:name=".PlaceDescription"
             android:label="@string/title_activity_place_description"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".PuzzleActivity"
+            android:label="PuzzleActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MapsActivity"
+            android:label="MapsActivity">
+        </activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
