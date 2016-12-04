@@ -68,12 +68,15 @@ public class MainActivity extends Activity{
                     // Log.d(TAG, String.valueOf(bitmap));
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 0, stream);
                     byte[] byteArray = stream.toByteArray();
                     Log.i("MAIN", "Start Puzzle");
                     Intent startPuzzle = new Intent(MainActivity.this, PuzzleActivity.class);
                     startPuzzle.putExtra("picture", byteArray);
+                    Log.i("MAIN", "Start Added Byte Array");
+
                     startPuzzle.putExtra("name", "Picture from Gallery");
+
                     startActivityForResult(startPuzzle, PUZZLE_FROM_GALLERY);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -118,7 +121,7 @@ public class MainActivity extends Activity{
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PUZZLE_FROM_GALLERY);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_GALLERY);
 
 
     }

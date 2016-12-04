@@ -128,7 +128,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
                         p.movePieceTo(new float[]{event.getRawX() + dX, event.getRawY() + dY});
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (Math.abs(p.pos[0] - p.start[0]) < 2 * p.size[0] && Math.abs(p.pos[1] - p.start[1]) < 2 * p.size[1]) {
+                        if (Math.abs(p.pos[0] - p.start[0]) < .5 * p.size[0] && Math.abs(p.pos[1] - p.start[1]) < .5 * p.size[1]) {
                             p.movePieceTo(p.start);
                             p.fixed = true;
                             p.sendViewToBack(p);

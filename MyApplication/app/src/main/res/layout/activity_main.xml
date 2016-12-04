@@ -40,9 +40,10 @@
         android:layout_margin="10dp"
         android:textColor="#477890"
         android:onClick="map"
-        android:text="Map"/>
+        android:text="UMD Map"/>
 
     <Button android:id="@+id/takephoto"
+        android:text="Take Photo"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

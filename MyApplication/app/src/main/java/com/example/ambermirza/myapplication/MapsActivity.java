@@ -52,7 +52,7 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        getSupportActionBar().setTitle("Map Location Activity");
+        getSupportActionBar().setTitle("UMD Multiplayer Map");
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
