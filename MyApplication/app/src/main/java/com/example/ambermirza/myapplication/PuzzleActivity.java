@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class PuzzleActivity extends AppCompatActivity implements View.OnTouchListener {
     private Bitmap fullImage;
     private FrameLayout mFrame;
+    private FrameLayout mFrameCompleted;
     private PieceView moving = null;
     private String puzzleName;
 
@@ -44,6 +46,23 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
         puzzleName = fromPrevActivity.getStringExtra("name");
         // Eric's Edit End
         mFrame = (FrameLayout) findViewById(R.id.frame);
+        mFrameCompleted = (FrameLayout) findViewById(R.id.frameImage);
+        mFrameCompleted.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mFrameCompleted.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width = mFrameCompleted.getWidth();
+                int height = mFrameCompleted.getHeight();
+
+                fullImage = Bitmap.createScaledBitmap(fullImage, width, height, false);
+
+                float[] f = new float[] {0,0};
+                float[] size = {width, height};
+                PieceView v = new PieceView(getApplicationContext(), f, size, fullImage, mFrameCompleted);
+                v.fixed = true;
+                mFrameCompleted.addView(v);
+            }
+        });
         mFrame.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -140,6 +159,21 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
             }
         }
         return true;
+    }
+
+    public void showCompleted(View v) {
+        if (mFrame.getVisibility() == View.VISIBLE) {
+            Button b = (Button) findViewById(R.id.showCompletedButton);
+            b.setText("Return to Puzzle");
+            mFrame.setVisibility(View.INVISIBLE);
+            mFrameCompleted.setVisibility(View.VISIBLE);
+
+        } else {
+            Button b = (Button) findViewById(R.id.showCompletedButton);
+            b.setText("Show Completed Puzzle");
+            mFrame.setVisibility(View.VISIBLE);
+            mFrameCompleted.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
