@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -16,8 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
