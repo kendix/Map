@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.ambermirza.myapplication.PlaceDescription;
 import com.google.android.gms.location.places.Place;
 
 import java.io.IOException;
@@ -31,10 +30,17 @@ public class GetPhotoAsynctask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... strings) {
         InputStream in = null;
         String placePic = strings[0];
+        if (placePic.length() < 32) {
+            placePic = "https://photojigsawpuzzledjango.appspot.com/static/img/"
+                    + placePic;
+            Log.i("GETPHOTO", placePic.toString());
+        }
+
         try {
             URL url = new URL(placePic);
             mHttpUrl = (HttpURLConnection) url.openConnection();
             in = mHttpUrl.getInputStream();
+            Log.i("GETPHOTO", in.toString());
             return BitmapFactory.decodeStream(in);
 
         } catch (MalformedURLException e) {

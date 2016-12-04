@@ -6,17 +6,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.util.Calendar;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,13 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.vision.text.Text;
-
 import java.io.ByteArrayOutputStream;
 
 public class PlaceDescription extends AppCompatActivity {
@@ -83,6 +71,7 @@ public class PlaceDescription extends AppCompatActivity {
         buidlingLat = fromMapActivity.getDoubleExtra("lat", 0);
         buidlingLng = fromMapActivity.getDoubleExtra("lng", 0);
 
+        Log.i(TAG, "loaded all info from intent");
         GetPhotoAsynctask task = new GetPhotoAsynctask(this);
         task.execute(fromMapActivity.getStringExtra("placePic"));
 
@@ -106,24 +95,24 @@ public class PlaceDescription extends AppCompatActivity {
 
                 if (Math.sqrt(distance) > 300) {
                     Toast.makeText(PlaceDescription.this,
-                            "You are " + distance + " meters from the building.",
+                            "You are " + (long) Math.sqrt(distance) + " meters from the building.",
                             Toast.LENGTH_LONG).show();
                     Toast.makeText(PlaceDescription.this,
                             "You need to get closer to start this puzzle!",
                             Toast.LENGTH_LONG).show();
                 } else {
 
-                Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
-                //Convert to byte array
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                mPlacePic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
+                    Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
+                    //Convert to byte array
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    mPlacePic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
 
-                startPuzzle.putExtra("picture", byteArray);
-                // startPuzzle.putExtra("picture", mPlacePic);
-                startPuzzle.putExtra("name", mPlaceName);
+                    startPuzzle.putExtra("picture", byteArray);
+                    // startPuzzle.putExtra("picture", mPlacePic);
+                    startPuzzle.putExtra("name", mPlaceName);
 
-                startActivityForResult(startPuzzle, START_PUZZLE_REQUEST);
+                    startActivityForResult(startPuzzle, START_PUZZLE_REQUEST);
                 }
             }
         });

@@ -14,8 +14,6 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.ambermirza.myapplication.PieceView;
-
 import java.util.ArrayList;
 
 public class PuzzleActivity extends AppCompatActivity implements View.OnTouchListener {
