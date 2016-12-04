@@ -1,21 +1,20 @@
 package com.example.ambermirza.myapplication;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.ImageView;
+
+import com.example.ambermirza.myapplication.PieceView;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,11 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
     private Bitmap fullImage;
     private FrameLayout mFrame;
     private PieceView moving = null;
+    private String puzzleName;
+
+    // Eric's Edits
+    private Intent fromPrevActivity;
+    // End edits
 
     float dX, dY;
     private float wiggle = .25f;
@@ -34,6 +38,13 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
+        // Eric's Edit Start
+        fromPrevActivity = getIntent();
+        // decodes bytearray of info sent by intent
+        byte[] byteArray = getIntent().getByteArrayExtra("picture");
+        fullImage = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        puzzleName = fromPrevActivity.getStringExtra("name");
+        // Eric's Edit End
         mFrame = (FrameLayout) findViewById(R.id.frame);
         mFrame.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -45,7 +56,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
                 int x = width / pd[0];
                 int y = height / pd[1];
 
-                //TODO uncomment, add actual image name
+                //uncomment to use a hardcoded image
                 //fullImage = BitmapFactory.decodeResource(getResources(), R.drawable.test4);
                 fullImage = Bitmap.createScaledBitmap(fullImage, width, height, false);
 
@@ -135,12 +146,21 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
 
     @Override
     public void finish() {
+        /*
         super.finish();
         if (isComplete()) {
             setResult(1);
         } else {
             setResult(0);
         }
+        */
+        // Eric's Edit
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("solved", isComplete());
+        resultIntent.putExtra("name", puzzleName);
+        setResult(Activity.RESULT_OK, resultIntent);
+        super.finish();
+        // end edits
     }
 
     public boolean isComplete() {
@@ -156,4 +176,5 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
     protected void onResume() {
         super.onResume();
     }
+
 }
