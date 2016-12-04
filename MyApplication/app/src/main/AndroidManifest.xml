@@ -3,6 +3,8 @@
     package="com.example.ambermirza.myapplication">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use

@@ -15,7 +15,7 @@ class Place(models.Model):
     and everyone who has solved the puzzle 
     """
 
-    name = models.CharField(max_length=20, unique=True,
+    name = models.CharField(max_length=100, unique=True,
         help_text="name of the location/puzzle")
     latitude = models.FloatField(null=False, blank=False,
         help_text="upper most latitude")

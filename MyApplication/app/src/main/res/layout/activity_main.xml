@@ -28,6 +28,7 @@
         android:background="#E1DD8F"
         android:layout_margin="10dp"
         android:textColor="#477890"
+        android:onClick="gallery"
         android:text="Gallery" />
 
     <Button android:id="@+id/map"
@@ -47,6 +48,8 @@
         android:background="#E1DD8F"
         android:layout_margin="10dp"
         android:textColor="#477890"
+        android:onClick="takePhoto"
+
 
         android:text="Take Photo"/>
 
