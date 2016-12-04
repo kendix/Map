@@ -28,7 +28,7 @@ public class PuzzleActivity extends AppCompatActivity implements View.OnTouchLis
 
     float dX, dY;
     private float wiggle = .25f;
-    int[] pd = {5, 3}; // Puzzle Dimentions
+    int[] pd = {3, 4}; // Puzzle Dimentions
     ArrayList<PieceView> pieces = new ArrayList<PieceView>();
 
     @Override
