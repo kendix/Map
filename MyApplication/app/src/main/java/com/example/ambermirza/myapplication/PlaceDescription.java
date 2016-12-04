@@ -103,7 +103,7 @@ public class PlaceDescription extends AppCompatActivity {
                 Log.i(TAG, "finished distance calculations");
 
 
-                /*
+
                 if (Math.sqrt(distance) > 300) {
                     Toast.makeText(PlaceDescription.this,
                             "You are " + distance + " meters from the building.",
@@ -112,7 +112,7 @@ public class PlaceDescription extends AppCompatActivity {
                             "You need to get closer to start this puzzle!",
                             Toast.LENGTH_LONG).show();
                 } else {
-                */
+
                 Intent startPuzzle = new Intent(PlaceDescription.this, PuzzleActivity.class);
                 //Convert to byte array
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -124,7 +124,7 @@ public class PlaceDescription extends AppCompatActivity {
                 startPuzzle.putExtra("name", mPlaceName);
 
                 startActivityForResult(startPuzzle, START_PUZZLE_REQUEST);
-                //}
+                }
             }
         });
 
