@@ -50,12 +50,6 @@
         android:layout_margin="10dp"
         android:textStyle="bold"
         android:textColor="#477890"
-        android:onClick="takePhoto"
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 64a7480e8f1bc19f9450f74f933f7eeed8bf50de
-        android:text="Take Photo"/>
+        android:onClick="takePhoto"></Button>
 
 </LinearLayout>
